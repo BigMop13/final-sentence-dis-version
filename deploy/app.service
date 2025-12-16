@@ -1,0 +1,21 @@
+[Unit]
+Description=Discord Typing Game Activity
+After=network.target
+
+[Service]
+Type=simple
+User=ec2-user
+Group=ec2-user
+WorkingDirectory=/opt/discord-typing-game
+ExecStart=/opt/discord-typing-game/discord-typing-game
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=discord-typing-game
+
+# Environment variables
+Environment="PORT=8080"
+
+[Install]
+WantedBy=multi-user.target
