@@ -8,17 +8,51 @@ import (
 	"syscall"
 )
 
+func corsMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+		w.Header().Set("X-Frame-Options", "ALLOWALL")
+		w.Header().Set("X-Content-Type-Options", "nosniff")
+		w.Header().Set("Referrer-Policy", "no-referrer-when-downgrade")
+
+		if r.Method == "OPTIONS" {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}
+
+func healthCheckHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(`{"status":"ok"}`))
+}
+
 func main() {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
 	// Create file server for static files
 	fs := http.FileServer(http.Dir("./static"))
-	http.Handle("/", fs)
+
+	handler := corsMiddleware(fs)
+
+	http.HandleFunc("/health", healthCheckHandler)
+
+	http.Handle("/", handler)
 
 	server := &http.Server{
-		Addr: ":8080",
+		Addr: ":" + port,
 	}
 
 	go func() {
-		log.Println("HTTP server listening on :8080")
+		log.Printf("HTTP server listening on :%s", port)
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("Failed to start server: %v", err)
 		}
