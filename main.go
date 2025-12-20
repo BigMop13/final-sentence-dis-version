@@ -17,8 +17,8 @@ func corsMiddleware(next http.Handler) http.Handler {
 		w.Header().Set("X-Content-Type-Options", "nosniff")
 		w.Header().Set("Referrer-Policy", "no-referrer-when-downgrade")
 
-		// Add CSP header that allows Discord to embed in iframe
-		w.Header().Set("Content-Security-Policy", "frame-ancestors *; default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self' data:;")
+		// Add CSP header that allows Discord to embed in iframe and ngrok resources
+		w.Header().Set("Content-Security-Policy", "frame-ancestors *; default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.ngrok.com https://*.ngrok.com; style-src 'self' 'unsafe-inline' https://cdn.ngrok.com https://*.ngrok.com; img-src 'self' data: blob: https: https://ngrok.com https://*.ngrok.com; font-src 'self' data: https:;")
 
 		if r.Method == "OPTIONS" {
 			w.WriteHeader(http.StatusOK)
