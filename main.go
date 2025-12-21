@@ -10,10 +10,13 @@ import (
 
 func corsMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Add ngrok bypass header to skip interstitial page
+		w.Header().Set("ngrok-skip-browser-warning", "true")
+
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-		w.Header().Set("X-Frame-Options", "ALLOWALL")
+		// Removed X-Frame-Options - using CSP frame-ancestors instead (modern standard)
 		w.Header().Set("X-Content-Type-Options", "nosniff")
 		w.Header().Set("Referrer-Policy", "no-referrer-when-downgrade")
 
