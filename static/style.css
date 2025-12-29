@@ -32,6 +32,109 @@ h1 {
     font-size: 2em;
 }
 
+.players-progress-container {
+    background: #23272A;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 2px solid #40444B;
+}
+
+.players-progress-header {
+    color: #7289DA;
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-bottom: 12px;
+    text-align: left;
+}
+
+.players-progress-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.player-progress-line {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    animation: slideInProgress 0.3s ease;
+}
+
+@keyframes slideInProgress {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.player-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9em;
+}
+
+.player-marker {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
+}
+
+.player-name {
+    color: #FFFFFF;
+    flex: 1;
+    text-align: left;
+}
+
+.player-stats {
+    color: #99AAB5;
+    font-size: 0.85em;
+    font-family: 'Courier New', monospace;
+}
+
+.player-progress-bar {
+    width: 100%;
+    height: 6px;
+    background-color: #40444B;
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+}
+
+.player-progress-fill {
+    height: 100%;
+    transition: width 0.2s ease;
+    border-radius: 3px;
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.2);
+}
+
+.player-marker-position {
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    z-index: 10;
+    box-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
+}
+
+.sentence-container span {
+    position: relative;
+    display: inline-block;
+    padding: 2px 1px;
+    transition: all 0.2s ease;
+}
+
 .sentence-container {
     background: #23272A;
     border-radius: 8px;
@@ -47,12 +150,6 @@ h1 {
     font-family: 'Courier New', monospace;
     border: 2px solid #40444B;
     word-spacing: 0.3em;
-}
-
-.sentence-container span {
-    display: inline-block;
-    padding: 2px 1px;
-    transition: all 0.2s ease;
 }
 
 .sentence-container span.space-char {
@@ -176,4 +273,27 @@ body.critical-error {
 
 .instructions p {
     margin: 5px 0;
+}
+
+.start-game-btn {
+    background: #7289DA;
+    color: #FFFFFF;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1.1em;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    margin: 15px 0;
+    transition: all 0.2s ease;
+}
+
+.start-game-btn:hover {
+    background: #5B6DAE;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(114, 137, 218, 0.3);
+}
+
+.start-game-btn:active {
+    transform: translateY(0);
 }
